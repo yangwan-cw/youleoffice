@@ -74,3 +74,10 @@ youleoffice:
 wx:
   appid: wx0a1b51b3f6b8e350
   secret: 3f611c1aeea96fca76eb2d757af3120e
+
+#http:
+#  client:
+#    baseUrls:
+#      holiday: "https://api.jiejiariapi.com"
+
+

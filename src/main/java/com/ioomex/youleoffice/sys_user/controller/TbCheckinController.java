@@ -1,7 +1,11 @@
 package com.ioomex.youleoffice.sys_user.controller;
+import cn.hutool.core.date.DateUtil;
+import com.ioomex.youleoffice.config.shiro.JwtUtil;
 import com.ioomex.youleoffice.config.swagger.StartSwaggerScan;
 import com.ioomex.youleoffice.sys_user.entity.po.TbCheckin;
 import com.ioomex.youleoffice.sys_user.service.TbCheckinService;
+import com.ioomex.youleoffice.utils.R;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,21 +19,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RequestMapping("/tb_checkin")
 @StartSwaggerScan
 public class TbCheckinController {
-/**
-* 服务对象
-*/
     @Autowired
-    private TbCheckinService tbCheckinService;
+    private JwtUtil jwtUtil;
 
-    /**
-    * 通过主键查询单条数据
-    *
-    * @param id 主键
-    * @return 单条数据
-    */
-    @GetMapping("selectOne")
-    public TbCheckin selectOne(Integer id) {
-    return tbCheckinService.getById(id);
+    @Autowired
+    private TbCheckinService checkinService;
+    @GetMapping("/validCanCheckIn")
+    @ApiOperation("查看用户今天是否可以签到")
+    public R validCanCheckIn(@RequestHeader("token") String token){
+        int userId=jwtUtil.getUserId(token);
+        String result=checkinService.validCanCheckIn(userId, DateUtil.today());
+        return R.ok(result);
     }
 
 }

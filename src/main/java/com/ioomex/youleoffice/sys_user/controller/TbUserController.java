@@ -1,4 +1,6 @@
 package com.ioomex.youleoffice.sys_user.controller;
+import com.ioomex.myhttpclientstarter.HttpService;
+import com.ioomex.youleoffice.common.ApiConstant;
 import com.ioomex.youleoffice.config.shiro.JwtUtil;
 import com.ioomex.youleoffice.sys_user.entity.param.LoginParam;
 import com.ioomex.youleoffice.sys_user.entity.param.RegisterParam;
@@ -41,6 +43,11 @@ public class TbUserController {
     private RedisTemplate redisTemplate;
 
 
+
+    @Autowired
+    private  HttpService httpService;
+
+
     @PostMapping("/register")
     @ApiOperation("注册用户")
     public R register(@Valid @RequestBody RegisterParam form){
@@ -67,4 +74,11 @@ public class TbUserController {
     private void saveCacheToken(String token,int userId){
         redisTemplate.opsForValue().set(token,userId+"",cacheExpire, TimeUnit.DAYS);
     }
+
+
+    @GetMapping("/data")
+    public String getData(String year) {
+        return httpService.getByServiceName("holiday", ApiConstant.HOLIDAYS + year);
+    }
+
 }

@@ -14,4 +14,9 @@
     <!--@mbg.generated-->
     id, param_key, param_value, `status`, remark
   </sql>
+    <select id="selectAllData" resultType="com.ioomex.youleoffice.sys_user.entity.SysConfig">
+        SELECT param_key, param_value
+        FROM sys_config
+        WHERE status = 1
+    </select>
 </mapper>

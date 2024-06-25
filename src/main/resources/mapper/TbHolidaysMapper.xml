@@ -11,4 +11,7 @@
     <!--@mbg.generated-->
     id, `date`
   </sql>
+  <select id="searchTodayIsHolidays" resultType="Integer">
+    SELECT id FROM tb_holidays WHERE date = CURRENT_DATE LIMIT 1;
+  </select>
 </mapper>
