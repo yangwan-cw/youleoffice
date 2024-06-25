@@ -1,0 +1,76 @@
+server:
+  port: 2319
+  servlet:
+    context-path: /yloffice
+  tomcat:
+    uri-encoding: UTF-8
+    threads:
+      max: 200
+      min-spare: 30
+    connection-timeout: 5000ms
+spring:
+  application:
+    name: youleoffice
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/youlezuo?autoReconnect=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+      username: root
+      password: 9978@wzb
+      initial-size: 8
+      max-active: 16
+      min-idle: 8
+      max-wait: 60000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password: 9978@wzb
+    jedis:
+      pool:
+        max-active: 1000
+        max-wait: -1ms
+        max-idle: 16
+        min-idle: 8
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: emos
+      username: admin
+      password: 9978@wzb
+      authentication-database: admin
+  session:
+    timeout: 86400
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.youle.youmall
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  level:
+    root: info
+    com.ioomex.youleoffice: info
+#  pattern:
+#    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+managementSwagger:
+  openFlag: true
+  title: 优乐办公系统
+  description: 优乐办公系统接口文档
+  version: 1.0.0
+  license: apache 2.0
+
+youleoffice:
+  jwt:
+    secret: 9978@wzb
+    expire: 5 # 7天过期时间
+    cache-expire: 10 # 缓存过期时间
+
+wx:
+  appid: wx0a1b51b3f6b8e350
+  secret: 3f611c1aeea96fca76eb2d757af3120e
