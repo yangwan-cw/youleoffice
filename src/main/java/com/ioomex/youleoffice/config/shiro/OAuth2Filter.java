@@ -3,6 +3,7 @@ package com.ioomex.youleoffice.config.shiro;
 import cn.hutool.core.util.StrUtil;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -30,6 +31,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 @Scope("prototype")
+@Slf4j
 public class OAuth2Filter extends AuthenticatingFilter {
 
     @Autowired
@@ -129,13 +131,14 @@ public class OAuth2Filter extends AuthenticatingFilter {
                 // 客户端已经过期,服务端也过期,返回401
                 resp.setStatus(HttpStatus.SC_UNAUTHORIZED);
                 resp.getWriter().print("令牌已过期");
+                log.info("令牌已过期");
                 return false;
             }
-
-        } catch (JWTDecodeException e) {
+        } catch (Exception e) {
             // 这种是为了防止伪造
             resp.setStatus(HttpStatus.SC_UNAUTHORIZED);
             resp.getWriter().print("无效的令牌____");
+            log.info("无效的令牌____");
             return false;
         }
         return executeLogin(req, resp);
@@ -173,9 +176,9 @@ public class OAuth2Filter extends AuthenticatingFilter {
      */
     private String getRequestToken(HttpServletRequest httpServletRequest) {
         String token = httpServletRequest.getHeader("token");
-        if (StrUtil.isNotEmpty(token)) {
-            token = httpServletRequest.getParameter("token");
-        }
+//        if (StrUtil.isNotEmpty(token)) {
+//            token = httpServletRequest.getParameter("token");
+//        }
         return token;
     }
 }

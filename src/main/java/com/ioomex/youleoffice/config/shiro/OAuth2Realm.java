@@ -1,5 +1,10 @@
 package com.ioomex.youleoffice.config.shiro;
 
+import cn.hutool.core.util.ObjUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.ioomex.youleoffice.exception.YoulezuoException;
+import com.ioomex.youleoffice.sys_user.entity.po.TbUser;
+import com.ioomex.youleoffice.sys_user.service.TbUserService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -22,6 +27,9 @@ public class OAuth2Realm extends AuthorizingRealm {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private TbUserService tbUserService;
 
 
     /**
@@ -52,7 +60,17 @@ public class OAuth2Realm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo();
+        String parseToken = authenticationToken.getPrincipal().toString();
+        Integer userId = jwtUtil.getUserId(parseToken);
+
+        TbUser tbUser = tbUserService.getOne(new LambdaQueryWrapper<TbUser>()
+          .eq(TbUser::getId, userId)
+          .eq(TbUser::getStatus, 1));
+
+        if(ObjUtil.isEmpty(tbUser)){
+            throw new YoulezuoException("账号不存在或被封禁,请联系管理员");
+        }
+        SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(tbUser, parseToken, getName());
         return simpleAuthenticationInfo;
     }
 }

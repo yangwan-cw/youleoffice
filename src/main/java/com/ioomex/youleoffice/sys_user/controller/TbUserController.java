@@ -1,5 +1,4 @@
 package com.ioomex.youleoffice.sys_user.controller;
-import com.ioomex.myhttpclientstarter.HttpService;
 import com.ioomex.youleoffice.common.ApiConstant;
 import com.ioomex.youleoffice.config.shiro.JwtUtil;
 import com.ioomex.youleoffice.sys_user.entity.param.LoginParam;
@@ -43,9 +42,9 @@ public class TbUserController {
     private RedisTemplate redisTemplate;
 
 
-
-    @Autowired
-    private  HttpService httpService;
+//
+//    @Autowired
+//    private  HttpService httpService;
 
 
     @PostMapping("/register")
@@ -78,7 +77,8 @@ public class TbUserController {
 
     @GetMapping("/data")
     public String getData(String year) {
-        return httpService.getByServiceName("holiday", ApiConstant.HOLIDAYS + year);
+//        return httpService.getByServiceName("holiday", ApiConstant.HOLIDAYS + year);
+        return "";
     }
 
 }

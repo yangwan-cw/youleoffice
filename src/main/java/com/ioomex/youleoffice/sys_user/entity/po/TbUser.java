@@ -90,7 +90,7 @@ public class TbUser implements Serializable {
      * 状态
      */
     @TableField(value = "`status`")
-    private Byte status;
+    private Integer status;
 
     /**
      * 创建时间
