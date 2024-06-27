@@ -12,4 +12,21 @@
     <!--@mbg.generated-->
     id, user_id, face_model
   </sql>
+
+  <delete id="deleteFace">
+    DELETE  FROM tb_face_model
+    WHERE  user_id= #{uid}
+    </delete>
+
+  <insert id="insertFace">
+    INSERT  INTO tb_face_model
+    SET user_id=#{uid}
+        ,face_model=#{url}
+  </insert>
+
+  <select id="searchFaceByUserId" resultType="java.lang.String">
+      SELECT face_model
+      FROM tb_face_model
+     WHERE  user_id= #{uid}
+  </select>
 </mapper>

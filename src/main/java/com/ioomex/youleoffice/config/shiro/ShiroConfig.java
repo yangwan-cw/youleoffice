@@ -63,7 +63,6 @@ public class ShiroConfig {
         NoAuthenticationMap.put("/swagger-resources/**", "anon");
         NoAuthenticationMap.put("/user/register", "anon");
         NoAuthenticationMap.put("/user/login", "anon");
-        NoAuthenticationMap.put("/user/data", "anon");
         NoAuthenticationMap.put("/captcha.jpg", "anon");
         NoAuthenticationMap.put("/test/**", "anon");
         NoAuthenticationMap.put("/**", "oauth2Filter");
